@@ -2,10 +2,16 @@ const express = require('express');
 const router = express.Router();
 const {Posts} = require('../models');
 
-//getting the posts created by users
+//getting the posts created by users in database
 router.get("/", async (req, res) => {
     const listOfPosts = await Posts.findAll();
     res.json(listOfPosts);
+});
+
+router.get("/byId/:id", async (req, res) => {
+    const id = req.params.id;
+    const post = await Posts.findByPk(id);
+    res.json(post);
 });
 
 //storing a new post
