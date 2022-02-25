@@ -136,12 +136,47 @@ span {
   place-items: center;
 }
 
-.postPageRight {
+.postPageRight .commentAddContainer {
   flex: 50%;
   height: calc(100vh - 70px);
   display: grid;
   place-items: center;
 }
+
+.commentAddContainer input,
+button {
+  width: 200px;
+  height: 50px;
+  border-radius: 8px;
+  border: none;
+}
+
+.commentAddContainer button {
+  background-color: dodgerblue;
+  color: white;
+}
+
+.commentAddContainer input {
+  border: 2px solid dodgerblue;
+}
+
+.postPageRight .commentsList {
+  flex: 80%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.commentsList .comment {
+  width: 70%;
+  height: auto;
+  padding: 30px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
 
 #single {
   height: 500px;

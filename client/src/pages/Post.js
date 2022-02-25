@@ -4,12 +4,17 @@ import axios from "axios";
 
 function Post() {
     let { id } = useParams();
-    const [postObject, seetPostObject] = useState({});
+    const [postObject, setPostObject] = useState({});
+    const [comments, setComments] = useState([]);
 
     //get request for specific post via id of post
     useEffect(() => {
         axios.get(`http://localhost:3001/posts/byId/${id}`).then((response) => {
-            seetPostObject(response.data);
+            setPostObject(response.data);
+        });
+
+        axios.get(`http://localhost:3001/comments/${id}`).then((response) => {
+            setComments(response.data);
         });
     })
 
@@ -22,7 +27,17 @@ function Post() {
                 <div className='footer'> {postObject.username} </div>
             </div>
         </div>
-        <div className='postPageRight'> Comment Section </div>
+        <div className='postPageRight'>
+            <div className='commentAddContainer'>
+                <input type='text' placeholder='Comment...' autoComplete='off'></input>
+                <button > Comment </button>
+            </div>
+            <div className='commentsList'>
+                {comments.map((comment, key) => {
+                    return <div key={key} className='comment' > {comment.commentBody} </div>
+                })}
+            </div>
+        </div>
     </div>
   )
 }

@@ -18,7 +18,7 @@ function Home() {
     <div>
         {listOfPosts.map((value, key) => {   //list of all posts in database
         return ( 
-          <div className='post' onClick={() => {
+          <div key={key} className='post' onClick={() => {
             navigate(`/post/${value.id}`);
           }}
           > 
