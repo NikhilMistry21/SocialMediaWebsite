@@ -6,6 +6,7 @@ function Post() {
     let { id } = useParams();
     const [postObject, setPostObject] = useState({});
     const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState("");
 
     //get request for specific post via id of post
     useEffect(() => {
@@ -16,7 +17,30 @@ function Post() {
         axios.get(`http://localhost:3001/comments/${id}`).then((response) => {
             setComments(response.data);
         });
-    })
+    }, []);
+
+    const addComment = () => {
+        axios.post("http://localhost:3001/comments", 
+        {
+            commentBody: newComment, 
+            PostId: id,
+        },
+        { 
+            headers: {
+                accessToken: sessionStorage.getItem("accessToken"),
+            },
+        }
+        )
+        .then((response) => { 
+            if (response.data.error) {
+                alert (response.data.error);
+            } else {
+                const commentToAdd = {commentBody: newComment}
+                setComments([...comments, commentToAdd]);
+                setNewComment("");
+            }
+        });
+    }
 
   return (
     <div className='singlePostPage'> 
@@ -29,8 +53,8 @@ function Post() {
         </div>
         <div className='postPageRight'>
             <div className='commentAddContainer'>
-                <input type='text' placeholder='Comment...' autoComplete='off'></input>
-                <button > Comment </button>
+                <input type='text' value={newComment} placeholder='Comment...' autoComplete='off' onChange={(event) => {setNewComment(event.target.value);}}/>
+                <button onClick={addComment}> Comment </button>
             </div>
             <div className='commentsList'>
                 {comments.map((comment, key) => {

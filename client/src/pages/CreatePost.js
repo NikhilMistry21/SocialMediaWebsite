@@ -4,11 +4,8 @@ import * as Yup from 'yup';
 import axios from "axios";
 import { useNavigate  } from "react-router-dom";
 
-
-
 function CreatePost() {
     let navigate = useNavigate(); 
-
 
     const initialValues = {
         title: "",
