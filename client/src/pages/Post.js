@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext} from 'react'
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import {AuthContext} from "../helpers/AuthContext";
+
 
 function Post() {
     let { id } = useParams();
     const [postObject, setPostObject] = useState({});
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
+    const { authState } = useContext(AuthContext); 
+
 
     //get request for specific post via id of post
     useEffect(() => {
@@ -27,7 +31,7 @@ function Post() {
         },
         { 
             headers: {
-                accessToken: sessionStorage.getItem("accessToken"),
+                accessToken: localStorage.getItem("accessToken"),
             },
         }
         )
@@ -35,11 +39,23 @@ function Post() {
             if (response.data.error) {
                 alert (response.data.error);
             } else {
-                const commentToAdd = {commentBody: newComment}
+                const commentToAdd = {
+                    commentBody: newComment,
+                    username: response.data.username,
+                };
                 setComments([...comments, commentToAdd]);
                 setNewComment("");
             }
         });
+    }
+
+    const deleteComment = (id) => {
+        axios.delete(`http://localhost:3001/comments/${id}`, {headers: { accessToken: localStorage.getItem('accessToken')},
+    }).then (() => {
+        setComments(comments.filter((val) => {
+            return val.id != id;
+        }))
+    });
     }
 
   return (
@@ -58,7 +74,15 @@ function Post() {
             </div>
             <div className='commentsList'>
                 {comments.map((comment, key) => {
-                    return <div key={key} className='comment' > {comment.commentBody} </div>
+                    return (
+                        <div key={key} className='comment' > 
+                            {comment.commentBody} 
+                            <label>   |         |{comment.username} </label>
+                            {authState.username === comment.username && (
+                                 <button onClick={() => deleteComment(comment.id)}> x </button>
+                                 )}
+                        </div>
+                    );
                 })}
             </div>
         </div>
