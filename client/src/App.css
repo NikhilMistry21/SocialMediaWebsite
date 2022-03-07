@@ -55,6 +55,13 @@ body {
   border-bottom-right-radius: 10px;
 }
 
+.likeBtn {
+  color: rgba(250, 250, 250, 0.8);
+}
+.unlikeBtn {
+  color: white;
+}
+
 /* CREATE POST PAGE CSS */
 
 .createPostPage {
