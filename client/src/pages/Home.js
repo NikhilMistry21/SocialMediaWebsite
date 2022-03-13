@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState} from "react";
 import { useNavigate  } from "react-router-dom";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import {AuthContext} from "../helpers/AuthContext";
+import {AuthContext} from "../helpers/AuthContext"; 
 
 
 function Home() {

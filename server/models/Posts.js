@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         username: {
             type: DataTypes.STRING,
             allowNull: false,
-        }
+        },
     });
 //associate comments table with posts table
     Posts.associate = (models) => {
